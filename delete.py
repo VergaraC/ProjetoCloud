@@ -1,8 +1,22 @@
 
-def deleteInstance(ec2, waiter):
+def deleteInstance(ec2, waiter,keyName):
   try:
     delete_instances_ids = []
-    existing_instances = ec2.describe_instances()
+    existing_instances = ec2.describe_instances(Filters=[
+        {
+            'Name': 'key-name',
+            'Values': [
+                keyName,
+            ]
+        },
+        {
+            'Name': 'instance-state-name',
+            'Values': [
+                "pending","running","stopping","stopped"
+            ]
+        },
+    ],)
+    
     existing_instances = existing_instances["Reservations"]
     for instance in existing_instances:
       for i in instance["Instances"]:

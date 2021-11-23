@@ -1,10 +1,12 @@
 import boto3
+import os
 
 from postgresOhio.postgresOhio import createPostgres
 from django.django import createDjango
 from securityGroups import createDjangoSG, createPostgresSG
 from ami import createAmiDjango, deleteAmi, launchAmi
 from delete import deleteImages, deleteInstance, deleteSG
+
 
 NA_REGION = "us-east-1"
 OHIO_REGION = "us-east-2"
@@ -15,6 +17,7 @@ UbuntuOHIO="ami-0629230e074c580f2"
 SGLists = ["djangoSG", "postgresSg"]
 
 AMIS = ["django_AMI"]
+
 
 #clients
 ec2Ohio = boto3.client('ec2', region_name=OHIO_REGION)
@@ -35,14 +38,18 @@ WAITER_OHIO_INSTANCE = ec2Ohio.get_waiter('instance_terminated')
 
 deleteInstance(
   ec2NorthVirginia, 
-  WAITER_NA_INSTANCE
+  WAITER_NA_INSTANCE,
+  "H0-Vergara"
+
 )
 deleteInstance(
   ec2Ohio, 
-  WAITER_OHIO_INSTANCE
+  WAITER_OHIO_INSTANCE,
+  "PostGres-Projeto1-Vergara"
 )
+print("Instances Deleted")
+# deleting all security-group
 
-# deleting all security-groups
 deleteSG(
   ec2NorthVirginia, 
   SGLists
@@ -51,18 +58,14 @@ deleteSG(
   ec2Ohio, 
   SGLists
 )
-deleteSG(
-  ec2NorthVirginia, 
-  SGLists
-)
+print("SGs Deleted")
+
 
 # Creating postgres
 postgresSG = createPostgresSG(OHIO_REGION)
-postgres_instance, postgresPublicIP = createPostgres(
-  OHIO_REGION, 
-  UbuntuOHIO, 
-  postgresSG
-)
+print("oi ",postgresSG)
+postgres_instance, postgresPublicIP = createPostgres(OHIO_REGION, UbuntuOHIO, postgresSG)
+
 if postgresPublicIP:
   print(f"postgresPublicIP: {postgresPublicIP}")
 

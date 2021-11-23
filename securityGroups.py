@@ -9,18 +9,7 @@ def createPostgresSG(region):
 
         sgPostgres = postgres_resource.create_security_group(
             Description='allowing ports',
-            GroupName='postgresSg',
-            TagSpecifications=[
-                {
-                    'ResourceType': 'security-group',
-                    'Tags': [
-                        {
-                            'Key': 'Name',
-                            'Value': 'postgres'
-                        },
-                    ]
-                },
-            ],
+            GroupName='postgresSg'
         )
         print("")    
         print("Postgres SG created")
@@ -45,7 +34,6 @@ def createPostgresSG(region):
     except Exception as e:
         print("")
         print("ERROR")
-        print("MAYBE THIS SECURITY-GROUP IS ALREADY CREATED")
         print(e)
         return False
 
@@ -56,18 +44,7 @@ def createDjangoSG(region):
 
         sGDjango = django_resource.create_security_group(
             Description='allowing ports',
-            GroupName='djangoSG',
-            TagSpecifications=[
-                {
-                    'ResourceType': 'security-group',
-                    'Tags': [
-                        {
-                            'Key': 'Name',
-                            'Value': 'django'
-                        },
-                    ]
-                },
-            ],
+            GroupName='djangoSG'
         )
         print("")
         print("Django SG Created")
@@ -92,6 +69,5 @@ def createDjangoSG(region):
     except Exception as e:
         print("")
         print("ERROR")
-        print("MAYBE THIS SECURITY-GROUP IS ALREADY CREATED")
         print(e)
         return False

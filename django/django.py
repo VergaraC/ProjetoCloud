@@ -15,7 +15,7 @@ def createDjango(region, machine_id ,postgresPublicIp, security_group, ec2):
       MinCount=1,
       MaxCount=1,
       InstanceType="t2.micro",
-      KeyName="PostGres-Projeto1-Vergara",
+      KeyName="H0-Vergara",
       SecurityGroupIds=[
         security_group.group_id
       ],
