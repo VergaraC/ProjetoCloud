@@ -1,11 +1,9 @@
 import boto3
 from botocore.config import Config
 
-from utils import print_errors, print_successes, print_lines
-
 def createDjango(region, machine_id ,postgresPublicIp, security_group, ec2):
   try:
-    with open("django.sh", "r") as f:
+    with open("django/django.sh", "r") as f:
       djangoSh = f.read()
       djangoSh2 = djangoSh.replace("s/node1/postgres_ip/g", f"s/node1/{postgresPublicIp}/g", 1)
 
@@ -34,11 +32,11 @@ def createDjango(region, machine_id ,postgresPublicIp, security_group, ec2):
       ],
       UserData=djangoSh2
     )    
-    print_lines("")
-    print_lines("Creating Django")
+    print("")
+    print("Creating Django")
     instanceDjango[0].wait_until_running()
     instanceDjango[0].reload()
-    print_successes("Djando Created")
+    print("Djando Created")
 
     all_north_virginia_instances = ec2.describe_instances()
     instances = all_north_virginia_instances["Reservations"]
@@ -48,11 +46,11 @@ def createDjango(region, machine_id ,postgresPublicIp, security_group, ec2):
           for tag in i["Tags"]:
             if tag["Value"] == "django":
               idInstance = i["InstanceId"]
-              print_successes(f"Id Instancia Django: {idInstance}")
+              print(f"Id Instancia Django: {idInstance}")
 
     return instanceDjango, idInstance, instanceDjango[0].public_ip_address
   except Exception as e:
-    print_lines("")
-    print_errors("ERROR")
+    print("")
+    print("ERROR")
     print(e)
     return False

@@ -1,9 +1,8 @@
-from utils import print_errors, print_successes, print_lines
 
 def launchAmi(ec2, image_id, security_group):
   try:
-    print_lines("")
-    print_lines("Launching AMI...")
+    print("")
+    print("Launching AMI...")
     ec2.create_launch_configuration(
       LaunchConfigurationName='amidjango',
       ImageId=image_id,
@@ -12,10 +11,10 @@ def launchAmi(ec2, image_id, security_group):
       ],
       InstanceType='t2.micro'
     )
-    print_successes("AMI Launched")
+    print("AMI Launched")
   except Exception as e:
-    print_lines("")
-    print_errors("Error launching AMI")
+    print("")
+    print("Error launching AMI")
     print(e)
 
 def createAmiDjango(ec2, DJANGO_INSTANCE_ID, waiter):
@@ -36,25 +35,25 @@ def createAmiDjango(ec2, DJANGO_INSTANCE_ID, waiter):
         }
       ]
     )
-    print_lines("")
-    print_lines("Creating Django AMI...")
+    print("")
+    print("Creating Django AMI...")
     waiter.wait(ImageIds=[ami_instance['ImageId']])
-    print_successes("Djando AMI Created")
+    print("Djando AMI Created")
 
     return instance, instance['ImageId']
   except Exception as e:
-    print_lines("")
-    print_errors("Error")
+    print("")
+    print("Error")
     print(e)
     return False
 
 def deleteAmi(ec2):
   try:
-    print_lines("")
-    print_lines("Deleting Launch")
+    print("")
+    print("Deleting Launch")
     ec2.delete_launch_configuration(LaunchConfigurationName="amidjango")
-    print_successes("Launch Deleted")
+    print("Launch Deleted")
   except Exception as e:
-    print_lines("")
-    print_errors("Error deleting Launch")
+    print("")
+    print("Error deleting Launch")
     print(e)

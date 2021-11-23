@@ -1,12 +1,10 @@
 import boto3
 from botocore.config import Config
 
-from utils import print_errors, print_successes, print_lines
-
 def createPostgres(region, machine_id, security_group):
   try:
 
-    with open("postgresOhio.sh", "r") as f:
+    with open("postgresOhio/postgresOhio.sh", "r") as f:
       postgres_sh = f.read()
 
     database_region = Config(region_name=region)
@@ -34,17 +32,17 @@ def createPostgres(region, machine_id, security_group):
       ],
       UserData=postgres_sh
     )
-    print_lines("")
-    print_lines("Creating Database")
+    print("")
+    print("Creating Database")
     database_instance[0].wait_until_running()
     database_instance[0].reload()
-    print_successes("Database Created!")
+    print("Database Created!")
 
     return database_instance, database_instance[0].public_ip_address
   except Exception as e:
-    print_lines("")
-    print_errors("====================================")
-    print_errors("ERROR")
-    print_errors("====================================")
+    print("")
+    print("====================================")
+    print("ERROR")
+    print("====================================")
     print(e)
     return False

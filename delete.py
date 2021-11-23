@@ -1,5 +1,5 @@
 
-def deleteInstances(ec2, waiter):
+def deleteInstance(ec2, waiter):
   try:
     delete_instances_ids = []
     existing_instances = ec2.describe_instances()

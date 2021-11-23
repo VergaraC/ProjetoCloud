@@ -1,7 +1,6 @@
 from logging import ERROR
 import boto3
 from botocore.config import Config
-from utils import print_errors, print_successes
 
 def createPostgresSG(region):
     try:
@@ -10,7 +9,7 @@ def createPostgresSG(region):
 
         sgPostgres = postgres_resource.create_security_group(
             Description='allowing ports',
-            GroupName='postgres-sg',
+            GroupName='postgresSg',
             TagSpecifications=[
                 {
                     'ResourceType': 'security-group',
@@ -24,7 +23,7 @@ def createPostgresSG(region):
             ],
         )
         print("")    
-        print_successes("Postgres SG created")
+        print("Postgres SG created")
 
         sgPostgres.authorize_ingress(
             CidrIp="0.0.0.0/0",
@@ -40,13 +39,13 @@ def createPostgresSG(region):
         )
 
         sgPostgres.load()
-        print_successes("Postgres SG running")
+        print("Postgres SG running")
 
         return sgPostgres
     except Exception as e:
         print("")
-        print_errors("ERROR")
-        print_errors("MAYBE THIS SECURITY-GROUP IS ALREADY CREATED")
+        print("ERROR")
+        print("MAYBE THIS SECURITY-GROUP IS ALREADY CREATED")
         print(e)
         return False
 
@@ -57,7 +56,7 @@ def createDjangoSG(region):
 
         sGDjango = django_resource.create_security_group(
             Description='allowing ports',
-            GroupName='django_security_group',
+            GroupName='djangoSG',
             TagSpecifications=[
                 {
                     'ResourceType': 'security-group',
@@ -71,7 +70,7 @@ def createDjangoSG(region):
             ],
         )
         print("")
-        print_successes("Django SG Created")
+        print("Django SG Created")
 
         sGDjango.authorize_ingress(
             CidrIp="0.0.0.0/0",
@@ -87,12 +86,12 @@ def createDjangoSG(region):
         )
 
         sGDjango.load()
-        print_successes("Django SG unning")
+        print("Django SG unning")
 
         return sGDjango
     except Exception as e:
         print("")
-        print_errors("ERROR")
-        print_errors("MAYBE THIS SECURITY-GROUP IS ALREADY CREATED")
+        print("ERROR")
+        print("MAYBE THIS SECURITY-GROUP IS ALREADY CREATED")
         print(e)
         return False
