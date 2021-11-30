@@ -55,7 +55,7 @@ def deleteImages(ec2, AMIs):
     existingImages = ec2.describe_images(Owners=["self"])
     if len(existingImages["Images"]) > 0:
       for image in existingImages["Images"]:
-        if image["Name"] in AMIs:
+        if image["Name"]== "django_AMI":
           print("")
           print("Waiting for the delete process from all AMIs...")
           ec2.deregister_image(ImageId=image["ImageId"])

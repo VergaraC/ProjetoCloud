@@ -20,24 +20,14 @@ def launchAmi(ec2, image_id, security_group):
 def createAmiDjango(ec2, DJANGO_INSTANCE_ID, waiter):
   try:
     instance = ec2.create_image(
-      Name="django_AMI",
+      Name="ImageDjango",
       InstanceId=DJANGO_INSTANCE_ID,
       NoReboot=False,
-      TagSpecifications=[
-        {
-          "ResourceType": "image",
-          "Tags": [
-            {
-              "Key": "Name",
-              "Value": "django_image"
-            }
-          ]
-        }
-      ]
+    
     )
     print("")
     print("Creating Django AMI...")
-    waiter.wait(ImageIds=[ami_instance['ImageId']])
+    waiter.wait(ImageIds=[instance['ImageId']])
     print("Djando AMI Created")
 
     return instance, instance['ImageId']

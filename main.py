@@ -25,14 +25,13 @@ ec2NorthVirginia = boto3.client('ec2', region_name=NA_REGION)
 
 WAITER_AMI = ec2NorthVirginia.get_waiter('image_available')
 
-# deleting all images
+# deletando antigos
+print("Deleting Images")
+
 deleteImages(
   ec2NorthVirginia, 
   "ImageDjango"
 ) 
-
-
-# deleting all that already exists from previous run
 
 WAITER_NA_INSTANCE = ec2NorthVirginia.get_waiter('instance_terminated')
 WAITER_OHIO_INSTANCE = ec2Ohio.get_waiter('instance_terminated')
@@ -80,9 +79,9 @@ django_instance, DJANGO_ID, djangoPublicIp = createDjango(
   ec2NorthVirginia
 )
 if djangoPublicIp:
-  print(f"djangoPublicIp: {djangoPublicIp}")
+  print("djangoPublicIp: ", djangoPublicIp)
+
 print("Criando AMI doD jango")
-# creating django AMI (IMAGE)
 django_AMI, DJANGO_AMI_ID = createAmiDjango(
   ec2NorthVirginia, 
   DJANGO_ID, 
@@ -94,6 +93,12 @@ if DJANGO_AMI_ID:
 # delete django instance after AMI creation
 deleteInstance(
   ec2NorthVirginia, 
-  WAITER_NA_INSTANCE
+  WAITER_NA_INSTANCE,
+  "H0-Vergara"
 )
-'''
+
+
+deleteImages(
+  ec2NorthVirginia, 
+  "ImageDjango"
+) 
