@@ -50,19 +50,18 @@ def deleteSG(ec2, security_group_names):
     print("ERROR")
     print(e)
 
-def deleteImages(ec2, AMIs):
+def deleteImages(ec2, NameAMI):
   try:
     existingImages = ec2.describe_images(Owners=["self"])
     if len(existingImages["Images"]) > 0:
       for image in existingImages["Images"]:
-        if image["Name"]== "django_AMI":
+        if image["Name"]== NameAMI:
           print("")
-          print("Waiting for the delete process from all AMIs...")
           ec2.deregister_image(ImageId=image["ImageId"])
-          print("AMIs deleted")
+          print("AMI deleted")
     else:
       print("")
-      print("No AMIs existing")
+      print("No AMI with that name")
       return
   except Exception as e:
     print("")
