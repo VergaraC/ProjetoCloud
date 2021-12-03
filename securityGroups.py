@@ -1,4 +1,4 @@
-from logging import ERROR
+from logs import logging
 import boto3
 from botocore.config import Config
 
@@ -11,7 +11,7 @@ def createPostgresSG(region):
             Description='allowing ports',
             GroupName='postgresSg'
         )
-        print("")    
+        logging.info("Postgres SG created")
         print("Postgres SG created")
 
         sgPostgres.authorize_ingress(
@@ -28,13 +28,17 @@ def createPostgresSG(region):
         )
 
         sgPostgres.load()
+        logging.info("Postgres SG running")
         print("Postgres SG running")
+        
 
         return sgPostgres
     except Exception as e:
-        print("")
-        print("ERROR")
+        print("Error:")
         print(e)
+        logging.info("errror:")
+        logging.info(e)
+
         return False
 
 def createDjangoSG(region):
@@ -46,8 +50,9 @@ def createDjangoSG(region):
             Description='allowing ports',
             GroupName='djangoSG'
         )
-        print("")
         print("Django SG Created")
+        logging.info("Django SG created")
+
 
         sGDjango.authorize_ingress(
             CidrIp="0.0.0.0/0",
@@ -67,9 +72,11 @@ def createDjangoSG(region):
 
         return sGDjango
     except Exception as e:
-        print("")
-        print("ERROR")
+        print("Error:")
         print(e)
+        logging.info("Error:")
+        logging.info(e)
+
         return False
 
 def createLoadBalancerSG(region):
@@ -92,9 +99,14 @@ def createLoadBalancerSG(region):
 
         sG_LB.load()
         print("LB Up")
+        logging.info("SG LB Done")
+
 
         return sG_LB
     except Exception as e:  
         print("Error: ")
         print(e)
+        logging.info("Error: ")
+        logging.info(e)
+
         return False

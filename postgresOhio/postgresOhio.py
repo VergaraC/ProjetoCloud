@@ -1,5 +1,6 @@
 import boto3
 from botocore.config import Config
+from logs import logging
 
 def createPostgres(region, machine_id, security_group):
   try:
@@ -32,17 +33,16 @@ def createPostgres(region, machine_id, security_group):
       ],
       UserData=postgres_sh
     )
-    print("")
-    print("Creating Database")
+    print("Creating PostGres")
     database_instance[0].wait_until_running()
     database_instance[0].reload()
-    print("Database Created!")
+    print("PostGres Created")
+    logging.info("PostGres Done")
 
     return database_instance, database_instance[0].public_ip_address
   except Exception as e:
-    print("")
-    print("====================================")
-    print("ERROR")
-    print("====================================")
+    print("Error: ")
     print(e)
+    logging.info("Error: ")
+    logging.info(e)
     return False

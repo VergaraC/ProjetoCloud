@@ -1,3 +1,5 @@
+from logs import logging
+
 def createAutoScalling(ec2_auto_scalling, ec2_north_virginia, targetGroupArns):
   try:
     print("Creating AS")
@@ -15,10 +17,13 @@ def createAutoScalling(ec2_auto_scalling, ec2_north_virginia, targetGroupArns):
       AvailabilityZones=listRegions
     )
     print("AS created")
+    logging.info("AS created")
 
   except Exception as e:
     print("Error: ")
     print(e)
+    logging.info("Error: ")
+    logging.info(e)
 
 def deleteAutoScalling(ec2):
   try:
@@ -29,9 +34,11 @@ def deleteAutoScalling(ec2):
       ForceDelete=True
     )
     print("AS deleted")
+    logging.info("AS deleted")
 
   except:
     print("AS does not exist")
+    logging.info("AS does not exist")
 
 def createAutoScallingPolicy(ec2, targetGroupArn, loadBalancerArn):
   try: 
@@ -52,5 +59,7 @@ def createAutoScallingPolicy(ec2, targetGroupArn, loadBalancerArn):
       }
     )
     print("Policy created")
+    logging.info("Policy created")
   except:
     print("Failed to create policy")
+    logging.info("Failed to create policy")

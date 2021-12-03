@@ -1,3 +1,4 @@
+from logs import logging
 
 def getSubnets(ec2):
   subnets = ec2.describe_subnets()
@@ -19,15 +20,18 @@ def createLoadBalancer(ec2_north_virginia, ec2LoadBalancer, security_group, wait
     )
     loadBalancerArn = load_balancer['LoadBalancers'][0]['LoadBalancerArn']
 
-    print("Creating Load Balancer")
+    print("Creating LB")
     waiter.wait(LoadBalancerArns=[loadBalancerArn])
-    print("Load Balancer Created")
+    print("LB Created")
+    logging.info("LB created")
+
 
     return load_balancer, loadBalancerArn
   except Exception as e:
-    print("")
     print("Error: ")
     print(e)
+    logging.info("Error?")
+    logging.info(e)
     return False
 
 def deleteLoadBalancer(ec2LoadBalancer, waiter):
@@ -40,29 +44,40 @@ def deleteLoadBalancer(ec2LoadBalancer, waiter):
           print("Deleting Load Balancer")
           
           waiter.wait(LoadBalancerArns=[balancer["LoadBalancerArn"]])
-          print("Load Balancer Deleted")
+          print("LB Deleted")
+          logging.info("LB Deleted")
           return balancer["LoadBalancerArn"]
+        else:
+          print("There is no LB named 'lbDjango'")
+          logging.info("There is no LB named 'lbDjango'")
+          return
     else:
-      print("There are no Load Balancers")
+      print("There are no LBs")
+      logging.info("There are no LBs")
       return
   except Exception as e:
     print("Error: ")
     print(e)
+    logging.info("Error: ")
+    logging.info(e)
     return False
 
 def useLoadBalancer(ec2_auto_scalling, target_group_arn):
   try:
     
-    print("Attaching load balancer")
+    print("Attaching LB")
     ec2_auto_scalling.attach_load_balancer_target_groups(
       AutoScalingGroupName='asDjango',
       TargetGroupARNs=[
         target_group_arn
       ]
     )
-    print("Load Balancer Attached")
+    print("LB Attached")
+    logging.info("LB Attached")
     return
   except Exception as e:
     print("Error:")
     print(e)
+    logging.info("Error:")
+    logging.info(e)
     return False

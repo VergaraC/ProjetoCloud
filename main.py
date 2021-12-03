@@ -1,9 +1,8 @@
 import boto3
-import os
-import time
+from logs import logging
 
 from postgresOhio.postgresOhio import createPostgres
-from django.django import createDjango
+from djangoF.django import createDjango
 from securityGroups import createDjangoSG, createPostgresSG, createLoadBalancerSG
 from ami import createAmiDjango, deleteAmi, launchAmi, deleteLaunchAmi
 from delete import deleteImages, deleteInstance, deleteSG
@@ -34,6 +33,7 @@ waiterOhio = ec2Ohio.get_waiter('instance_terminated')
 
 # deletando antigos
 print("Deletiing LBs")
+
 deleteLoadBalancer(ec2LoadBalencer_NA, waiterDeleteLB)
 deleteAutoScalling(ec2AutoScallingNA)
 deleteLaunchAmi(ec2AutoScallingNA)
@@ -68,6 +68,7 @@ deleteSG(
   SGLists
 )
 print("SGs Deleted")
+logging.info("All Deleted")
 
 
 # Creating postgres
@@ -77,6 +78,7 @@ postgres_instance, postgresPublicIP = createPostgres(OHIO_REGION, UbuntuOHIO, po
 
 if postgresPublicIP:
   print("postgresPublicIP: ",postgresPublicIP)
+  logging.info("postgresPublicIP: ",postgresPublicIP)
 
 # Creating Django
 DjangoSG = createDjangoSG(NA_REGION)
@@ -89,6 +91,8 @@ django_instance, DJANGO_ID, djangoPublicIp = createDjango(
 )
 if djangoPublicIp:
   print("Django Public Ip: ", djangoPublicIp)
+  logging.info("Django Public Ip: ", djangoPublicIp)
+
   print(DJANGO_ID)
 
 print("Criando AMI doD jango")
@@ -99,6 +103,8 @@ django_AMI, DJANGO_AMI_ID = createAmiDjango(
 )
 if DJANGO_AMI_ID:
   print("Image Django ID: ",DJANGO_AMI_ID)
+  logging.info("Image Django ID: ",DJANGO_AMI_ID)
+
 
 # delete django instance
 deleteInstance(
@@ -111,7 +117,6 @@ TARGET_GROUP_ARN = createTargetDp(
   ec2NorthVirginia, 
   ec2LoadBalencer_NA
 ) 
-print("LB MF")
 lbSG = createLoadBalancerSG(NA_REGION)
 load_balancer, LOAD_BALANCER_ARN = createLoadBalancer(
   ec2NorthVirginia, 
