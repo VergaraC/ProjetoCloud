@@ -71,3 +71,41 @@ def createDjangoSG(region):
         print("ERROR")
         print(e)
         return False
+
+def createLoadBalancerSG(region):
+    try:
+        lbRegion = Config(region_name=region)
+        lB = boto3.resource("ec2", config=lbRegion)
+
+        sG_LB = lB.create_security_group(
+            Description='allowing ports',
+            GroupName='load_balancer_security_group',
+            TagSpecifications=[
+                {
+                    'ResourceType': 'security-group',
+                    'Tags': [
+                        {
+                            'Key': 'Name',
+                            'Value': 'load_balancer'
+                        },
+                    ]
+                },
+            ],
+        )
+        print("Load Balancer SG created")
+        
+        sG_LB.authorize_ingress(
+            CidrIp="0.0.0.0/0",
+            FromPort=80,
+            ToPort=80,
+            IpProtocol="tcp"
+        )
+
+        sG_LB.load()
+        print("LB Up")
+
+        return sG_LB
+    except Exception as e:  
+        print("Error: ")
+        print(e)
+        return False

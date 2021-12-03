@@ -4,12 +4,12 @@ import time
 
 from postgresOhio.postgresOhio import createPostgres
 from django.django import createDjango
-from securityGroups import createDjangoSG, createPostgresSG
-from ami import createAmiDjango, deleteAmi, launchAmi
+from securityGroups import createDjangoSG, createPostgresSG, createLoadBalancerSG
+from ami import createAmiDjango, deleteAmi, launchAmi, deleteLaunchAmi
 from delete import deleteImages, deleteInstance, deleteSG
 from targetGp import createTargetDp, deleteTargetGp
-from autoScalling import createAutoScalling, deleteAutoScalling
-
+from autoScalling import createAutoScalling, deleteAutoScalling, createAutoScallingPolicy
+from loadBalencer import createLoadBalancer, deleteLoadBalancer, useLoadBalancer
 
 NA_REGION = "us-east-1"
 OHIO_REGION = "us-east-2"
@@ -27,14 +27,16 @@ ec2LoadBalencer_NA = boto3.client('elbv2', region_name=NA_REGION)
 ec2AutoScallingNA = boto3.client('autoscaling', region_name=NA_REGION)
 
 waiterAMI = ec2NorthVirginia.get_waiter('image_available')
-'''
-waiterCreateLoadBalancer = ec2LoadBalencer_NA.get_waiter('load_balancer_available')
-waiterDeleteLoadBalencer = ec2LoadBalencer_NA.get_waiter('load_balancers_deleted')
-deleteTargetGp(ec2LoadBalencer_NA)
-deleteAutoScalling(ec2AutoScallingNA)
-'''
+waiterCreateLB = ec2LoadBalencer_NA.get_waiter('load_balancer_available')
+waiterDeleteLB = ec2LoadBalencer_NA.get_waiter('load_balancers_deleted')
 
 # deletando antigos
+print("Deletiing LBs")
+deleteLoadBalancer(ec2LoadBalencer_NA, waiterDeleteLB)
+deleteAutoScalling(ec2AutoScallingNA)
+deleteLaunchAmi(ec2AutoScallingNA)
+
+
 print("Deleting Images")
 
 deleteImages(
@@ -57,6 +59,9 @@ deleteInstance(
   "PostGres-Projeto1-Vergara"
 )
 print("Instances Deleted")
+
+deleteTargetGp(ec2LoadBalencer_NA)
+
 # deleting all security-group
 
 deleteSG(
@@ -76,7 +81,7 @@ print("oi ",postgresSG)
 postgres_instance, postgresPublicIP = createPostgres(OHIO_REGION, UbuntuOHIO, postgresSG)
 
 if postgresPublicIP:
-  print(f"postgresPublicIP: {postgresPublicIP}")
+  print("postgresPublicIP: ",postgresPublicIP)
 
 # Creating Django
 DjangoSG = createDjangoSG(NA_REGION)
@@ -88,7 +93,7 @@ django_instance, DJANGO_ID, djangoPublicIp = createDjango(
   ec2NorthVirginia
 )
 if djangoPublicIp:
-  print("djangoPublicIp: ", djangoPublicIp)
+  print("Django Public Ip: ", djangoPublicIp)
   print(DJANGO_ID)
 
 print("Criando AMI doD jango")
@@ -98,7 +103,7 @@ django_AMI, DJANGO_AMI_ID = createAmiDjango(
   waiterAMI
 )
 if DJANGO_AMI_ID:
-  print(f"DJANGO_AMI_ID: {DJANGO_AMI_ID}")
+  print("Image Django ID: ",DJANGO_AMI_ID)
 
 # delete django instance
 deleteInstance(
@@ -107,3 +112,21 @@ deleteInstance(
   "H0-Vergara"
 )
 
+TARGET_GROUP_ARN = createTargetDp(
+  ec2NorthVirginia, 
+  ec2LoadBalencer_NA
+) 
+
+lbSG = createLoadBalancerSG(NA_REGION)
+load_balancer, LOAD_BALANCER_ARN = createLoadBalancer(
+  ec2NorthVirginia, 
+  ec2LoadBalencer_NA, 
+  lbSG, 
+  waiterCreateLB
+)
+
+launchAmi(
+  ec2AutoScallingNA, 
+  DJANGO_AMI_ID, 
+  DjangoSG
+)
