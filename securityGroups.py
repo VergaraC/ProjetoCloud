@@ -79,18 +79,7 @@ def createLoadBalancerSG(region):
 
         sG_LB = lB.create_security_group(
             Description='allowing ports',
-            GroupName='load_balancer_security_group',
-            TagSpecifications=[
-                {
-                    'ResourceType': 'security-group',
-                    'Tags': [
-                        {
-                            'Key': 'Name',
-                            'Value': 'load_balancer'
-                        },
-                    ]
-                },
-            ],
+            GroupName='lbSG',
         )
         print("Load Balancer SG created")
         

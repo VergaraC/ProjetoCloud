@@ -12,7 +12,6 @@ def createTargetDp(ec2_north_virginia, ec2_load_balancer):
       Name="Django-Manager",
       Protocol="HTTP",
       Port=8080,
-      HealthCheckEnabled=True,
       HealthCheckProtocol='HTTP',
       HealthCheckPort='8080',
       HealthCheckPath='/admin/',

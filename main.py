@@ -10,14 +10,14 @@ from delete import deleteImages, deleteInstance, deleteSG
 from targetGp import createTargetDp, deleteTargetGp
 from autoScalling import createAutoScalling, deleteAutoScalling, createAutoScallingPolicy
 from loadBalencer import createLoadBalancer, deleteLoadBalancer, useLoadBalancer
-
+from listener import createListener
 NA_REGION = "us-east-1"
 OHIO_REGION = "us-east-2"
 
 # ubuntu 20 us-east-1 e us-east-2
 UbuntuNA="ami-083654bd07b5da81d"
 UbuntuOHIO="ami-0629230e074c580f2"
-SGLists = ["djangoSG", "postgresSg"]
+SGLists = ["djangoSG", "postgresSg","lbSG"]
 
 
 #clients
@@ -29,6 +29,8 @@ ec2AutoScallingNA = boto3.client('autoscaling', region_name=NA_REGION)
 waiterAMI = ec2NorthVirginia.get_waiter('image_available')
 waiterCreateLB = ec2LoadBalencer_NA.get_waiter('load_balancer_available')
 waiterDeleteLB = ec2LoadBalencer_NA.get_waiter('load_balancers_deleted')
+waiterNA = ec2NorthVirginia.get_waiter('instance_terminated')
+waiterOhio = ec2Ohio.get_waiter('instance_terminated')
 
 # deletando antigos
 print("Deletiing LBs")
@@ -43,27 +45,20 @@ deleteImages(
   ec2NorthVirginia, 
   "ImageDjango"
 ) 
-
-waiterNA = ec2NorthVirginia.get_waiter('instance_terminated')
-waiterOhio = ec2Ohio.get_waiter('instance_terminated')
-
 deleteInstance(
   ec2NorthVirginia, 
   waiterNA,
   "H0-Vergara"
-
 )
 deleteInstance(
   ec2Ohio, 
   waiterOhio,
   "PostGres-Projeto1-Vergara"
 )
+
 print("Instances Deleted")
 
 deleteTargetGp(ec2LoadBalencer_NA)
-
-# deleting all security-group
-
 deleteSG(
   ec2NorthVirginia, 
   SGLists
@@ -116,7 +111,7 @@ TARGET_GROUP_ARN = createTargetDp(
   ec2NorthVirginia, 
   ec2LoadBalencer_NA
 ) 
-
+print("LB MF")
 lbSG = createLoadBalancerSG(NA_REGION)
 load_balancer, LOAD_BALANCER_ARN = createLoadBalancer(
   ec2NorthVirginia, 
@@ -130,3 +125,19 @@ launchAmi(
   DJANGO_AMI_ID, 
   DjangoSG
 )
+
+createAutoScalling(
+  ec2AutoScallingNA, 
+  ec2NorthVirginia, 
+  TARGET_GROUP_ARN
+)
+
+useLoadBalancer(ec2AutoScallingNA, TARGET_GROUP_ARN)
+
+createListener(
+  ec2LoadBalencer_NA, 
+  TARGET_GROUP_ARN, 
+  LOAD_BALANCER_ARN
+)
+
+createAutoScallingPolicy(ec2AutoScallingNA, TARGET_GROUP_ARN, LOAD_BALANCER_ARN)

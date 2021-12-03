@@ -13,12 +13,6 @@ def createLoadBalancer(ec2_north_virginia, ec2LoadBalancer, security_group, wait
       SecurityGroups=[
         security_group.group_id
       ],
-      Tags=[
-        {
-          'Key': 'Name',
-          'Value': 'lbDjango'
-        }
-      ],
       IpAddressType='ipv4',
       Name='lbDjango',
       Subnets=subnets
@@ -61,7 +55,7 @@ def useLoadBalancer(ec2_auto_scalling, target_group_arn):
     
     print("Attaching load balancer")
     ec2_auto_scalling.attach_load_balancer_target_groups(
-      AutoScalingGroupName='auto_scaling_group',
+      AutoScalingGroupName='asDjango',
       TargetGroupARNs=[
         target_group_arn
       ]

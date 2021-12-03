@@ -1,15 +1,14 @@
 def createAutoScalling(ec2_auto_scalling, ec2_north_virginia, targetGroupArns):
   try:
-    print("")
-    print("Launching auto scalling group...")
+    print("Creating AS")
     listRegions = []
-    all_zones = ec2_north_virginia.describe_availability_zones()
-    for i in all_zones["AvailabilityZones"]:
+    regions = ec2_north_virginia.describe_availability_zones()
+    for i in regions["AvailabilityZones"]:
       listRegions.append(i["ZoneName"])
 
     ec2_auto_scalling.create_auto_scaling_group(
       AutoScalingGroupName="asDjango",
-      LaunchConfigurationName="ami_launched",
+      LaunchConfigurationName="amiDjango",
       MinSize=1,
       MaxSize=3,
       TargetGroupARNs=[targetGroupArns],
@@ -18,7 +17,7 @@ def createAutoScalling(ec2_auto_scalling, ec2_north_virginia, targetGroupArns):
     print("AS created")
 
   except Exception as e:
-    print("Failed to creat AS ")
+    print("Error: ")
     print(e)
 
 def deleteAutoScalling(ec2):
@@ -29,10 +28,10 @@ def deleteAutoScalling(ec2):
       AutoScalingGroupName="asDjango",
       ForceDelete=True
     )
-    print("Auto scalling group deleted")
+    print("AS deleted")
 
   except:
-    print("Auto Scalling Group does not exist")
+    print("AS does not exist")
 
 def createAutoScallingPolicy(ec2, targetGroupArn, loadBalancerArn):
   try: 
