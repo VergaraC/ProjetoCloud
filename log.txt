@@ -1,42 +1,46 @@
-2021-12-04 18:43:48,418 - INFO - Found credentials in shared credentials file: ~/.aws/credentials
-2021-12-04 18:43:48,544 - INFO - Starting new HTTPS connection (1): elasticloadbalancing.us-east-1.amazonaws.com
-2021-12-04 18:43:49,713 - INFO - Starting new HTTPS connection (1): autoscaling.us-east-1.amazonaws.com
-2021-12-04 18:43:50,643 - INFO - AS does not exist
-2021-12-04 18:43:50,648 - INFO - Resetting dropped connection: autoscaling.us-east-1.amazonaws.com
-2021-12-04 18:43:51,606 - INFO - No Launch AMI found
-2021-12-04 18:43:51,610 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
-2021-12-04 18:43:52,790 - INFO - No instances
-2021-12-04 18:43:52,794 - INFO - Starting new HTTPS connection (1): ec2.us-east-2.amazonaws.com
-2021-12-04 18:44:40,070 - INFO - Instances deleted
-2021-12-04 18:44:40,276 - INFO - No Django-Manager Targer GP
-2021-12-04 18:44:40,911 - INFO - SG deleted
-2021-12-04 18:44:41,420 - INFO - SG deleted
-2021-12-04 18:44:42,233 - INFO - SG deleted
-2021-12-04 18:44:42,237 - INFO - All Deleted
-2021-12-04 18:44:42,297 - INFO - Starting new HTTPS connection (1): ec2.us-east-2.amazonaws.com
-2021-12-04 18:44:43,371 - INFO - Postgres SG created
-2021-12-04 18:44:44,600 - INFO - Postgres SG running
-2021-12-04 18:44:44,635 - INFO - Starting new HTTPS connection (1): ec2.us-east-2.amazonaws.com
-2021-12-04 18:45:17,978 - INFO - PostGres Done
-2021-12-04 18:45:18,096 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
-2021-12-04 18:45:19,410 - INFO - Django SG created
-2021-12-04 18:45:23,097 - INFO - .sh edited
-2021-12-04 18:45:23,126 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
-2021-12-04 18:47:56,738 - INFO - Django Sone
-2021-12-04 18:47:56,739 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
-2021-12-04 18:52:04,438 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
-2021-12-04 18:53:52,264 - INFO - Djando AMI Created
-2021-12-04 18:54:38,888 - INFO - Instances deleted
-2021-12-04 18:54:39,196 - INFO - Creating TG
-2021-12-04 18:54:39,199 - INFO - Resetting dropped connection: elasticloadbalancing.us-east-1.amazonaws.com
-2021-12-04 18:54:40,837 - INFO - TG created
-2021-12-04 18:54:40,852 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
-2021-12-04 18:54:42,780 - INFO - SG LB Done
-2021-12-04 18:57:01,289 - INFO - LB created
-2021-12-04 18:57:01,292 - INFO - Resetting dropped connection: autoscaling.us-east-1.amazonaws.com
-2021-12-04 18:57:02,341 - INFO - AMI Launched
-2021-12-04 18:57:02,344 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
-2021-12-04 18:57:03,697 - INFO - AS created
-2021-12-04 18:57:04,086 - INFO - LB Attached
-2021-12-04 18:57:04,825 - INFO - Listener Created
-2021-12-04 18:57:05,374 - INFO - Policy created
+2021-12-04 19:14:30,354 - INFO - Found credentials in shared credentials file: ~/.aws/credentials
+2021-12-04 19:14:30,389 - INFO - Starting new HTTPS connection (1): elasticloadbalancing.us-east-1.amazonaws.com
+2021-12-04 19:14:35,624 - INFO - LB Deleted
+2021-12-04 19:15:35,676 - INFO - Starting new HTTPS connection (1): autoscaling.us-east-1.amazonaws.com
+2021-12-04 19:15:36,754 - INFO - AS deleted
+2021-12-04 19:15:37,161 - INFO - Launch AMI Deleted
+2021-12-04 19:15:37,163 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
+2021-12-04 19:15:41,342 - INFO - AMI deleted
+2021-12-04 19:16:28,386 - INFO - Instances deleted
+2021-12-04 19:16:28,390 - INFO - Starting new HTTPS connection (1): ec2.us-east-2.amazonaws.com
+2021-12-04 19:17:00,462 - INFO - Instances deleted
+2021-12-04 19:17:00,464 - INFO - Resetting dropped connection: elasticloadbalancing.us-east-1.amazonaws.com
+2021-12-04 19:17:01,742 - INFO - TG deleted
+2021-12-04 19:17:01,743 - INFO - No Django-Manager Targer GP
+2021-12-04 19:17:02,564 - INFO - SG deleted
+2021-12-04 19:17:03,241 - INFO - SG deleted
+2021-12-04 19:17:03,995 - INFO - SG deleted
+2021-12-04 19:17:03,995 - INFO - All Deleted
+2021-12-04 19:17:04,012 - INFO - Starting new HTTPS connection (1): ec2.us-east-2.amazonaws.com
+2021-12-04 19:17:05,122 - INFO - Postgres SG created
+2021-12-04 19:17:06,231 - INFO - Postgres SG running
+2021-12-04 19:17:06,242 - INFO - Starting new HTTPS connection (1): ec2.us-east-2.amazonaws.com
+2021-12-04 19:17:54,486 - INFO - PostGres Done
+2021-12-04 19:17:54,531 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
+2021-12-04 19:17:55,607 - INFO - Django SG created
+2021-12-04 19:17:57,042 - INFO - .sh edited
+2021-12-04 19:17:57,066 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
+2021-12-04 19:18:14,619 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
+2021-12-04 19:20:46,681 - INFO - Django Sone
+2021-12-04 19:20:46,684 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
+2021-12-04 19:23:54,749 - INFO - Djando AMI Created
+2021-12-04 19:24:41,424 - INFO - Instances deleted
+2021-12-04 19:24:41,427 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
+2021-12-04 19:24:42,771 - INFO - Creating TG
+2021-12-04 19:24:42,774 - INFO - Resetting dropped connection: elasticloadbalancing.us-east-1.amazonaws.com
+2021-12-04 19:24:44,822 - INFO - TG created
+2021-12-04 19:24:44,832 - INFO - Starting new HTTPS connection (1): ec2.us-east-1.amazonaws.com
+2021-12-04 19:24:46,871 - INFO - SG LB Done
+2021-12-04 19:27:20,891 - INFO - LB created
+2021-12-04 19:27:20,894 - INFO - Resetting dropped connection: autoscaling.us-east-1.amazonaws.com
+2021-12-04 19:27:22,217 - INFO - AMI Launched
+2021-12-04 19:27:22,219 - INFO - Resetting dropped connection: ec2.us-east-1.amazonaws.com
+2021-12-04 19:27:24,370 - INFO - AS created
+2021-12-04 19:27:24,882 - INFO - LB Attached
+2021-12-04 19:27:25,098 - INFO - Listener Created
+2021-12-04 19:27:25,806 - INFO - Policy created
