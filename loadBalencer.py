@@ -1,5 +1,5 @@
 from logs import logging
-
+import time
 def getSubnets(ec2):
   subnets = ec2.describe_subnets()
   subnetsId = []
@@ -31,7 +31,7 @@ def createLoadBalancer(ec2_north_virginia, ec2LoadBalancer, security_group, wait
     print("Error: ")
     print(e)
     logging.info("Error?")
-    logging.info(e)
+    logging.error(e)
     return False
 
 def deleteLoadBalancer(ec2LoadBalancer, waiter):
@@ -46,11 +46,10 @@ def deleteLoadBalancer(ec2LoadBalancer, waiter):
           waiter.wait(LoadBalancerArns=[balancer["LoadBalancerArn"]])
           print("LB Deleted")
           logging.info("LB Deleted")
+          time.sleep(60)
           return balancer["LoadBalancerArn"]
         else:
-          print("There is no LB named 'lbDjango'")
-          logging.info("There is no LB named 'lbDjango'")
-          return
+          print("LB Found and not deleted: ",balancer["LoadBalancerName"])
     else:
       print("There are no LBs")
       logging.info("There are no LBs")
@@ -59,7 +58,7 @@ def deleteLoadBalancer(ec2LoadBalancer, waiter):
     print("Error: ")
     print(e)
     logging.info("Error: ")
-    logging.info(e)
+    logging.error(e)
     return False
 
 def useLoadBalancer(ec2_auto_scalling, target_group_arn):
@@ -79,5 +78,5 @@ def useLoadBalancer(ec2_auto_scalling, target_group_arn):
     print("Error:")
     print(e)
     logging.info("Error:")
-    logging.info(e)
+    logging.error(e)
     return False

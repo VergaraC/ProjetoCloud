@@ -1,4 +1,5 @@
 import boto3
+import time
 from botocore.config import Config
 from logs import logging
 
@@ -37,8 +38,11 @@ def createDjango(region, machine_id ,postgresPublicIp, security_group, ec2):
     print("Creating Django")
     instanceDjango[0].wait_until_running()
     instanceDjango[0].reload()
+
+    print("Waiting for install.sh")
+    time.sleep(120)
     print("Djando Done")
-    logging.info("Django Created")
+    logging.info("Django Sone")
 
     all_north_virginia_instances = ec2.describe_instances()
     instances = all_north_virginia_instances["Reservations"]
